@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Examples.iml" filepath="$PROJECT_DIR$/Examples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mirror-context-sdk/mirror-context-sdk.iml" filepath="$PROJECT_DIR$/mirror-context-sdk/mirror-context-sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simpledemo/simpledemo.iml" filepath="$PROJECT_DIR$/simpledemo/simpledemo.iml" />
+    </modules>
+  </component>
+</project>
