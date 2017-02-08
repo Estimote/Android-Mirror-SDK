@@ -45,7 +45,8 @@ Templates are just HTML pages that are switched by Mirror and fed with data usin
                     }
                 },
                 ondisconnect: function(ev) {
-                    mirror.selectTemplate("default")
+                    // Return to default template.
+                    mirror.selectTemplate(null)
                 }
             })
         }
