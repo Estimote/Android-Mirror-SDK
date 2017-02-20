@@ -23,6 +23,7 @@ To display already prepared template on Mirror screen you can use code similar t
         Log.i(TAG, "Data displayed");
       }
 
+      @Override
       public void onFinish() {
         Log.i(TAG, "Data display finished");
       }
