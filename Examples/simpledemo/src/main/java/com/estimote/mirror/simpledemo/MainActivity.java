@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     // Init Estimote SDK
     EstimoteSDK.initialize(getApplicationContext(), "", "");
     // Init Mirror Context SDK.
-    mirrorContext = new MirrorContextManager(this);
+    mirrorContext = MirrorContextManager.createMirrorContextManager(this);
     // Check for Bluetooth permissions.
     SystemRequirementsChecker.checkWithDefaultDialogs(this);
   }
@@ -55,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onDataDisplayed() {
         System.out.println("Message sent");
+      }
+
+      @Override
+      public void onFinish() {
+        System.out.println("Display finished sent");
       }
 
       @Override
@@ -76,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onDataDisplayed() {
         System.out.println("Message sent");
+      }
+
+      @Override
+      public void onFinish() {
+        System.out.println("Display finished sent");
       }
 
       @Override

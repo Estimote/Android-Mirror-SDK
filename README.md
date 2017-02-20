@@ -10,7 +10,7 @@ Mirror SDK consists of:
 To display already prepared template on Mirror screen you can use code similar to this snippet:
 
 ```java
-MirrorContextManager ctxMgr = new MirrorContextManager(context);
+   MirrorContextManager ctxMgr = MirrorContextManager.createMirrorContextManager(context);
    Dictionary dict = new Dictionary();
    dict.setTemplate("table");
    dict.put("Name", "Luke");
@@ -21,6 +21,10 @@ MirrorContextManager ctxMgr = new MirrorContextManager(context);
       @Override
       public void onDataDisplayed() {
         Log.i(TAG, "Data displayed");
+      }
+
+      public void onFinish() {
+        Log.i(TAG, "Data display finished");
       }
 
       @Override
