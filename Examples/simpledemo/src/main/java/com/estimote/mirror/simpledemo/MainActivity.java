@@ -12,6 +12,8 @@ import com.estimote.sdk.mirror.context.MirrorContextManager;
 import com.estimote.sdk.mirror.context.Zone;
 import com.estimote.sdk.mirror.core.MirrorException;
 
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
   private Button bigButton;
@@ -66,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
       public void onFailure(MirrorException exception) {
         System.out.println("Message not sent");
       }
+
+      @Override
+      public void onData(JSONObject jsonObject) {
+        System.out.println("Received data: " + jsonObject);
+      }
     });
   }
 
@@ -91,6 +98,11 @@ public class MainActivity extends AppCompatActivity {
       @Override
       public void onFailure(MirrorException exception) {
         System.out.println("Message not sent");
+      }
+
+      @Override
+      public void onData(JSONObject jsonObject) {
+        System.out.println("Received data: " + jsonObject);
       }
     });
   }
