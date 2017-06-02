@@ -10,10 +10,6 @@
     <a href="https://opensource.org/licenses/MIT">
         <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="licence">
     </a>
-    <a>
-        <img src="https://www.bitrise.io/app/55cd8edc4f83f32e/status.svg?token=KN5gaUHiK2opILjxV8tcBg&branch=master"
-             alt="build status">
-    </a>
     <a href="https://discord.gg/HjJCwm5">
         <img src="https://img.shields.io/discord/308323056592486420.svg"
              alt="chat on Discord">
@@ -36,7 +32,7 @@ Right now .aars are available from public Maven repository.
 
 Copy generated Gradle configuration:
 
-```
+```gradle
 repositories {
     maven {
         url  "http://estimote.bintray.com/android"
@@ -46,7 +42,7 @@ repositories {
 
 In order to pull it via **Maven**, please use following dependency:
 
-```
+```xml
 <dependency>
   <groupId>com.estimote</groupId>
   <artifactId>display-sdk</artifactId>
@@ -57,7 +53,7 @@ In order to pull it via **Maven**, please use following dependency:
 
 or **Gradle** option:
 
-```
+```gradle
 compile 'com.estimote:display-sdk:0.1.0'
 ```
 
