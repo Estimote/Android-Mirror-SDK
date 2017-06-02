@@ -140,17 +140,17 @@ mirrorClient.when(MirrorZone.ANY).thenShow(view, new com.estimote.display.client
 
     @Override
     public void onViewOpetationFailed(ViewOperation show, com.estimote.display.view.View view, String message) {
-        
+
     }
 });
 
 ```
 
 ## Documentation
-The documentation for Mirror Display API can be found [here](https://link-to-docs).
+The documentation for Mirror Display API can be found [here](https://github.com/Estimote/Android-Mirror-SDK/blob/abiela/display_sdk/MirrorDisplaySDK/mirror-display-sdk-0.1.0-javadoc.jar).
 
 ## Opening issues
-Delivering best developer tools is our goal. Hence, if you struggle with some issue during development process, please [let us know](https://link-to-issue) about it.
+Delivering best developer tools is our goal. Hence, if you struggle with some issue during development process, please [let us know](https://github.com/Estimote/Android-Mirror-SDK/issues) about it.
 
 Also don't forget to check current issues - maybe we've already aware of that trying to solve it!
 
