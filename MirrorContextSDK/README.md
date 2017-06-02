@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="http://blog.estimote.com/post/150398268230/launching-estimote-mirror-the-worlds-first"><b>Mirror</b></a> Display for Android
+    <a href="http://blog.estimote.com/post/150398268230/launching-estimote-mirror-the-worlds-first"><b>Mirror</b></a> Context for Android
 </p>
 <p align="center">
     <a href="https://estimote.canny.io/mirror-display">
@@ -8,10 +8,6 @@
     </a>
     <a href="https://opensource.org/licenses/MIT">
         <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="licence">
-    </a>
-    <a>
-        <img src="https://www.bitrise.io/app/55cd8edc4f83f32e/status.svg?token=KN5gaUHiK2opILjxV8tcBg&branch=master"
-             alt="build status">
     </a>
     <a href="https://discord.gg/HjJCwm5">
         <img src="https://img.shields.io/discord/308323056592486420.svg"
@@ -28,7 +24,7 @@ The SDK system works on Android 4.3 or above and requires device with Bluetooth 
 
 Mirror Core is not publicly available yet. However you can get its latest version from our internal repository. 
 First - configure Estimote Maven repository:
-```
+```gradle
 repositories {
     maven {
         url  "http://estimote.bintray.com/android"
@@ -39,7 +35,7 @@ repositories {
 Then - simply add compile dependency to the latest sdk version.
 In you are using **Maven**, please use following dependency:
 
-```
+```xml
 <dependency>
   <groupId>com.estimote</groupId>
   <artifactId>context</artifactId>
@@ -50,7 +46,7 @@ In you are using **Maven**, please use following dependency:
 
 For **Gradle**  - add compile dependency as follows:
 
-```
+```gradle
 compile 'com.estimote:context:0.1.0'
 ```
 
