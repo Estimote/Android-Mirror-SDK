@@ -34,6 +34,16 @@ Hence, your Android dev skills is the only requirement to make your plans come t
 
 Right now .aars are available from public Maven repository.
 
+Copy generated Gradle configuration:
+
+```
+repositories {
+    maven {
+        url  "http://estimote.bintray.com/android"
+    }
+}
+```
+
 In order to pull it via **Maven**, please use following dependency:
 
 ```
@@ -122,10 +132,15 @@ TableView tableView = new TableView(tableViewData, tableViewStyle);
 Determine which proximity zone should be trigger for view change. Declare the action you would like to perform and handle it with `DisplayCallback`.
 
 ```java
-mirrorClient.when(MirrorZone.ANY).thenShow(view, new DisplayCallback() {
+mirrorClient.when(MirrorZone.ANY).thenShow(view, new com.estimote.display.client.DisplayCallback() {
     @Override
-    public void onViewOperationDone(ViewOperation viewOperation, View view) {
-        //Handle information that your view has been displayed.
+    public void onViewOperationDone(ViewOperation viewOperation, com.estimote.display.view.View view) {
+        //Yay, it works!
+    }
+
+    @Override
+    public void onViewOpetationFailed(ViewOperation show, com.estimote.display.view.View view, String message) {
+        
     }
 });
 
