@@ -5,7 +5,7 @@
 [Estimote Mirror]: http://blog.estimote.com/post/150398268230/launching-estimote-mirror-the-worlds-first
 
 [![Feature requests](https://img.shields.io/badge/feature%20request-canny.io-blue.svg)](https://estimote.canny.io/mirror-display)
-[![MIT license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
+[![Apache License 2.0](https://img.shields.io/github/license/mashape/apistatus.svg)](https://choosealicense.com/licenses/apache-2.0/)
 [![Chat on Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/EstimoteMirror/Mirror-SDK-Android)
 
 **Got a question?** Join us on [Gitter][], or head over to our [community forums][].
