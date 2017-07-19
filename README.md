@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         PosterView poster = new PosterView(posterData, posterStyle);
 
-        this.mirrorClient = new MirrorClient.Builder()
+        this.mirrorClient = new MirrorClient.Builder(getApplicationContext())
             // replace with your own Mirror's ID
             .useMirrorWithIds("9f1a787ad3764057311e043f63921917")
             .setDebugModeEnabled(true)
