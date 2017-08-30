@@ -16,11 +16,13 @@
 **Table of Contents:**
 
 * [Getting started](#getting-started)
-  + [Hello, world!](#hello-world)
+  + [Hello, world!](#3-hello-world)
 * [Documentation](#documentation)
 * ["Work in progress" disclaimer](#work-in-progress-disclaimer)
 
 ## Getting started
+
+### 1. Installation
 
 Add Estimote's Maven repo to your **project's** build.gradle:
 
@@ -37,11 +39,23 @@ Then add the Display SDK dependency to your **module's** build.gradle:
 ~~~ java
 dependencies {
     // ...
-    compile 'com.estimote:display-sdk:0.1.3'
+    compile 'com.estimote:display-sdk:0.1.5'
 }
 ~~~
 
-### Hello, world!
+### 2. Initializing Estimote SDK
+
+Initialize Estimote SDK in your Application class `onCreate()` method:
+
+~~~ java
+//  To get your AppId and AppToken you need to create a new application in Estimote Cloud.
+EstimoteSDK.initialize(applicationContext, appId, appToken)
+// Optional, debug logging.
+EstimoteSDK.enableDebugLogging(true)
+
+~~~
+
+### 3. Hello, world!
 
 ```java
 public class MainActivity extends AppCompatActivity {
