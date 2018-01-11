@@ -27,11 +27,16 @@
 Add Estimote's Maven repo to your **project's** build.gradle:
 
 ~~~ java
-repositories {
-    maven {
-        url  "http://estimote.bintray.com/android"
+
+allprojects {
+    repositories {
+        maven {
+            url  "http://estimote.bintray.com/android"
+        }
+        // other repositories go here
     }
 }
+
 ~~~
 
 Then add the Display SDK dependency to your **module's** build.gradle:
