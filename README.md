@@ -44,7 +44,7 @@ Then add the Display SDK dependency to your **module's** build.gradle:
 ~~~ java
 dependencies {
     // ...
-    compile 'com.estimote:display-sdk:0.1.5'
+    compile 'com.estimote:display-sdk:0.1.6'
 }
 ~~~
 
