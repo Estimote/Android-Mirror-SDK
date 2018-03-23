@@ -60,6 +60,15 @@ EstimoteSDK.enableDebugLogging(true)
 
 ~~~
 
+Ask for runtime `ACCESS_COARSE_LOCATION` permission (it is required to enable Bluetooth scanning since Android 6.0). You can use provided helper that will also check if Bluetooth adapter is enabled:
+~~~ java
+@Override
+void onStart() {
+    super.onStart();
+    SystemRequirementsChecker.checkWithDefaultDialogs(this);
+}
+~~~
+
 ### 3. Hello, world!
 
 ```java
