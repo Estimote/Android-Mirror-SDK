@@ -3,7 +3,6 @@
 [Estimote Mirror]: http://blog.estimote.com/post/150398268230/launching-estimote-mirror-the-worlds-first
 
 [![Download](https://api.bintray.com/packages/estimote/android/mirror-display-sdk/images/download.svg)](https://bintray.com/estimote/android/mirror-display-sdk/_latestVersion)
-![Feature requests](https://www.bitrise.io/app/55cd8edc4f83f32e/status.svg?token=KN5gaUHiK2opILjxV8tcBg&branch=master) 
 ![Apache License 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
 *This SDK allows you to take control of the big screen from your Android app with [Estimote Mirror][]*.
@@ -13,8 +12,6 @@
 * *Building Mirror experience based on mobile SDKs* - you can start prototyping your first Mirror application, using only mobile Display SDK. There is no need to upload any code or resources upfront to the Mirror.
 
 * *Pre-defined views* - No need to design your first Mirror app view. Android Mirror SDK lets you define customized screens based on pre-defined views; All you need to do is to declare basic styling and data content.
-
-* *Display rules based on proximity* - You can easily take control over Mirror-plugged screen with display rules. Building on top of screen proximity conditions i.e. when you're nearby the screen, you can define different screen behavior.
 
 * *Feedback from Mirror screen to mobile* - Whenever any display action has been triggered, your mobile app is being notified about it. You can handle successful screen change and perform further actions with your mobile app.
 
@@ -49,10 +46,11 @@ repositories {
 }
 ~~~
 
-Then, add the Display SDK dependency to your **module's** build.gradle:
+Then, add the **Display SDK** as well as **Proximity SDK** dependency to your **module's** build.gradle:
 
 ~~~ java
-compile 'com.estimote:display-sdk:0.1.7'
+implementation 'com.estimote:display-sdk:0.1.7'
+implementation 'com.estimote:proximity-sdk:0.6.2'
 ~~~
 
 ## Obtain app credentials from Estimote Cloud
@@ -60,67 +58,80 @@ compile 'com.estimote:display-sdk:0.1.7'
 To obtain Estimote Cloud credentials for your mobile application:
 
 1. Log in to your [Estimote Cloud](https://cloud.estimote.com/) account.
-2. Go to *Apps* section and click **Add new app** option.
-3. Select **Your own app** option.
-4. Save your App Id/App Token credentials.
+2. Go to *Apps* section and click `Add new app` option.
+3. Select `Your own app` option.
+4. Save your *App Id/App Token* credentials.
 
-## Initialize Estimote SDK in your Android project
+## Check Bluetooth scanning requirements
 
-Initialize Estimote SDK in your Application class `onCreate()` method:
+Making sure that everything needed for Bluetooth scanning to work is set up - [the user has Bluetooth enabled, location permissions were granted, etc.](https://developer.android.com/training/permissions/requesting) Displaying default popup dialogs to enable Bluetooth and give needed permissions. You can find more details in [Proximity SDK readme](https://github.com/Estimote/Android-Proximity-SDK#checking-requirements-for-bluetooth-scanning-with-requirementswizard).
+
+1. Add Estimote's support library `Mustard` to your module's `build.gradle` file:
 
 ~~~ java
-//  To get your AppId and AppToken you need to create a new application in Estimote Cloud.
-EstimoteSDK.initialize(applicationContext, <YOUR_APP_ID>, <YOUR_APP_TOKEN>);
-// Optional, debug logging.
-EstimoteSDK.enableDebugLogging(true);
-
+implementation 'com.estimote:mustard:0.2.1'
 ~~~
 
-## Grant Android runtime permissions
+2. Use `RequirementsWizard` before performing any Bluetooth action:
 
-Ask for runtime `ACCESS_COARSE_LOCATION` permission - [ it is required to enable Bluetooth scanning since Android 6.0](https://developer.android.com/training/permissions/requesting). You can use provided helper that will also check if Bluetooth adapter is enabled
-
-~~~ java
-@Override
-void onStart() {
-    super.onStart();
-    SystemRequirementsChecker.checkWithDefaultDialogs(this);
-}
+~~~Kotlin
+RequirementsWizardFactory.createEstimoteRequirementsWizard().fulfillRequirements(
+            YOUR_ACTIVITY_CONTEXT_HERE,
+            onRequirementsFulfilled : { /* start the Bluetooth operations here! */ },
+            onRequirementsMissing: { /* scanning won't work, handle this case in your app */ },
+            onError: { /* Oops, some error occurred, handle it here! */ })
 ~~~
 
 # Quick start
 
-The following is simple example for showing Poster View on the screen.
+The following is simple example for showing Poster View on the screen, when user appears in Mirror nearby range.
 
-```java
-//Java
-MirrorClient mirrorClient=
-        new MirrorClient.Builder(this).build();
+```Kotlin
+//KOTLIN
 
-PosterViewStyle defaultPosterViewStyle=
-        new PosterViewStyle.Builder().create();
+//Initialize your Estimote Cloud credentials
+val cloudCredentials = EstimoteCloudCredentials(YOUR_APP_ID_HERE, YOUR_APP_TOKEN_HERE)
+EstimoteSDK.initialize(applicationContext, cloudCredentials.appId, cloudCredentials.appToken)
 
-PosterViewData defaultPosterViewData=
-        new PosterViewData.Builder()
+//Define MirrorClient
+val mirrorClient = MirrorClient.Builder(this).build()
+
+//Declare your customized Poster View
+val defaultPosterViewStyle = PosterViewStyle.Builder().create()
+val defaultPosterViewData = PosterViewData.Builder()
         .setHeader("Congratulations!")
         .setBody("You've just created a Poster View! \n Let's tweak it a little bit!")
         .setImage("poster.jpg")
-        .create();
+        .create()
+val posterView = PosterView(defaultPosterViewData, defaultPosterViewStyle)
 
-PosterView posterView = new PosterView(defaultPosterViewData,defaultPosterViewStyle);
+//Build ProximityObserver with Cloud credentials
+proximityObserver = ProximityObserverBuilder(applicationContext, cloudCredentials)
+        .withLowLatencyPowerMode()
+        .withTelemetryReportingDisabled()
+        .withEstimoteSecureMonitoringDisabled()
+        .withOnErrorAction { /* Handle an error here! */}
+        .build()
 
-mirrorClient.when(MirrorZone.ANY).thenShow(posterView,new DisplayCallback(){
-        @Override
-        public void onViewOperationDone(ViewOperation viewOperation,com.estimote.display.view.View view){
-            /* View has been displayed! You can refresh the UI and inform user about it. */
-            }
+//Define near proximity zone
+val nearZone = proximityObserver.zoneBuilder()
+        .forTag("mirror")
+        .inNearRange()
+        .withOnEnterAction {
+          //Display a Poster View when you are in Mirror near range
+          MirrorClient
+          .forDevice(it.getInfo().getDeviceId())
+          .take(posterView)
+          .display() }
+        .create()
 
-        @Override
-        public void onViewOperationFailed(ViewOperation show,com.estimote.display.view.View view,String message){
-            /* Oops! Something went wrong - check the message and maybe try to display the view once again! */
-            }
-        });
+//Start proximity observation
+observationHandler = proximityObserver.addProximityZone(nearZone).start()
 ```
+
+Zone monitoring is based on Estimote Proximity SDK - most reliable signal-processing technology.
+
+To get more details, you can find [setting up ProximityObserver](https://github.com/Estimote/Android-Proximity-SDK#2-build-proximity-observer) or [defining Proximity Zones](https://github.com/Estimote/Android-Proximity-SDK#3-define-proximity-zones) at Github readme.
 
 # Your feedback and questions
 
