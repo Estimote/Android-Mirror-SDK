@@ -49,8 +49,8 @@ repositories {
 Then, add the **Display SDK** as well as **Proximity SDK** dependency to your **module's** build.gradle:
 
 ~~~ java
-implementation 'com.estimote:display-sdk:0.1.7'
-implementation 'com.estimote:proximity-sdk:0.6.2'
+implementation 'com.estimote:display-sdk:0.2.0'
+implementation 'com.estimote:proximity-sdk:1.0.1'
 ~~~
 
 ## Obtain app credentials from Estimote Cloud
@@ -99,34 +99,29 @@ val mirrorClient = MirrorClient.Builder(this).build()
 //Declare your customized Poster View
 val defaultPosterViewStyle = PosterViewStyle.Builder().create()
 val defaultPosterViewData = PosterViewData.Builder()
-        .setHeader("Congratulations!")
-        .setBody("You've just created a Poster View! \n Let's tweak it a little bit!")
-        .setImage("poster.jpg")
-        .create()
+                .setHeader("Congratulations!")
+                .setBody("You've just created a Poster View! \n Let's tweak it a little bit!")
+                .setImage("poster.jpg")
+                .create()
 val posterView = PosterView(defaultPosterViewData, defaultPosterViewStyle)
 
 //Build ProximityObserver with Cloud credentials
 proximityObserver = ProximityObserverBuilder(applicationContext, cloudCredentials)
-        .withLowLatencyPowerMode()
-        .withTelemetryReportingDisabled()
-        .withEstimoteSecureMonitoringDisabled()
-        .withOnErrorAction { /* Handle an error here! */}
-        .build()
+                .withLowLatencyPowerMode()
+                .withTelemetryReportingDisabled()
+                .withEstimoteSecureMonitoringDisabled()
+                .onError { /* Handle an error here! */}
+                .build()
 
 //Define near proximity zone
-val nearZone = proximityObserver.zoneBuilder()
-        .forTag("mirror")
-        .inNearRange()
-        .withOnEnterAction {
-          //Display a Poster View when you are in Mirror near range
-          MirrorClient
-          .forDevice(it.getInfo().getDeviceId())
-          .take(posterView)
-          .display() }
-        .create()
+val nearZone = ProximityZoneBuilder()
+                .forTag("mirror")
+                .inNearRange()
+                .onEnter { mirrorClient.forDevice(it.deviceId).take(posterView).display() }
+                .build()
 
 //Start proximity observation
-observationHandler = proximityObserver.addProximityZone(nearZone).start()
+observationHandler = proximityObserver.startObserving(nearZone)
 ```
 
 Zone monitoring is based on Estimote Proximity SDK - most reliable signal-processing technology.
